@@ -25,7 +25,7 @@
 
 
 
-
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
   <script src="https://unpkg.com/read-excel-file@4.x/bundle/read-excel-file.min.js"></script>
 <script>
   console.log(("Shmas sa sad"));
@@ -48,34 +48,55 @@
   }
   const input = document.getElementById('input')
 
-input.addEventListener('change', () => {
-  readXlsxFile(input.files[0]).then((rows) => {
-    console.log(rows);
-    
+input.addEventListener('change', (event) => {
+  $('#result').html('')
+  dict={};
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            var excelData = [];
+            reader.onload = function (event) {
+                var data = event.target.result;
+                var workbook = XLSX.read(data, {
+                    type: 'binary'
+                });
+                var c=0;
+                workbook.SheetNames.forEach(function (sheetName) {
+                    // Here is your object
+                    var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                    for(var i = 2;i<XL_row_object.length;i++){
+                      console.log(XL_row_object[i]);
+                      dict[XL_row_object[i]['__EMPTY_1']+" - "+XL_row_object[i]['__EMPTY_2']] = XL_row_object[i]['__EMPTY_3']+ (dict[XL_row_object[i]['__EMPTY_1']+" - "+XL_row_object[i]['__EMPTY_2']] || 0);;
+                    }
+                    
+                    for (var key in dict) {
+                      if (dict.hasOwnProperty(key)) {       
+                        var s= key.replace(/\s+/g, "").trim();
+                        s=s.replace('+','');    
+                        $('#result').append(
+                        '<div class=\"form-group row\">'+
+                        '<label for=\"exampleInputnumber\">'+key+'</label>'+
+                        '<input type=\"number\" class=\"form-control\" value=\"0\" id=\"'+s+'\" required></div>'
+                          )
+                        }
+                      }
+                    $('#result').append(
 
-   for(var i = 2;i<rows.length;i++){
-    dict[rows[i][2]+" - "+rows[i][3]] = rows[i][4]+ (dict[rows[i][2]+" - "+rows[i][3]] || 0);;
+                    '<div class=\"row\" ><div class=\"col-6\" id=\"res\"></div><div class=\"col-6\"><button style=\"width:100%\"type=\"submit\" class="btn btn-primary" onclick=\"calculate()\">Calculate</button></div></div></form>'
+                    )
+                    
+                   
+                   
+                })
 
-   }
-   $('#result').html('<form>')
-   for (var key in dict) {
-    if (dict.hasOwnProperty(key)) {       
-      var s= key.replace(/\s+/g, "").trim();
-        s=s.replace('+','');    
-        $('#result').append(
-        '<div class=\"form-group row\">'+
-    '<label for=\"exampleInputnumber\">'+key+'</label>'+
-    '<input type=\"number\" class=\"form-control\" value=\"0\" id=\"'+s+'\" required></div>'
-        )
-    }
-  }
-  $('#result').append(
+            };
 
-    '<div class=\"row\" ><div class=\"col-6\" id=\"res\"></div><div class=\"col-6\"><button style=\"width:100%\"type=\"submit\" class="btn btn-primary" onclick=\"calculate()\">Calculate</button></div></div></form>'
-  )
-  
-   
-  })
+            reader.onerror = function (ex) {
+                console.log(ex);
+            };
+
+            reader.readAsBinaryString(file);
+
+
 })
 </script>
   </body>
