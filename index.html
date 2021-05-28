@@ -1,106 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-  
-    <script
-    src="https://code.jquery.com/jquery-3.5.1.slim.js"
-    integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
-    crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title></title>
-  </head>
-  <body>
-    <div class="container" style="margin-top: 5vh;">
-      <div class="row">
-        <input type="file" id="input" />
-      </div>
-      <div class="row">
-        <div id="result">
-        </div>
-      </div>
-  </div>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
 
 
-
-
-  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-  <script src="https://unpkg.com/read-excel-file@4.x/bundle/read-excel-file.min.js"></script>
-<script>
-  console.log(("Shmas sa sad"));
-  
-      var dict = {};
-  function calculate(){
-    var sum =0;
-    for (var key in dict) {
-      if (dict.hasOwnProperty(key)) {       
-        var s= key.replace(/\s+/g, "").trim();
-        s=s.replace('+','');
-       sum = sum + (dict[key]* parseInt($('#'+s).val()))
-      
-       
-      }
-    }
-    $('#res').html('<h3>Total : '+sum+'</h3>')
-    console.log(sum);
-    
-  }
-  const input = document.getElementById('input')
-
-input.addEventListener('change', (event) => {
-  $('#result').html('')
-  dict={};
-            var file = event.target.files[0];
-            var reader = new FileReader();
-            var excelData = [];
-            reader.onload = function (event) {
-                var data = event.target.result;
-                var workbook = XLSX.read(data, {
-                    type: 'binary'
-                });
-                var c=0;
-                workbook.SheetNames.forEach(function (sheetName) {
-                    // Here is your object
-                    var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-                    for(var i = 2;i<XL_row_object.length;i++){
-                      console.log(XL_row_object[i]);
-                      dict[XL_row_object[i]['__EMPTY_1']+" - "+XL_row_object[i]['__EMPTY_2']] = XL_row_object[i]['__EMPTY_3']+ (dict[XL_row_object[i]['__EMPTY_1']+" - "+XL_row_object[i]['__EMPTY_2']] || 0);;
-                    }
-                    
-                    for (var key in dict) {
-                      if (dict.hasOwnProperty(key)) {       
-                        var s= key.replace(/\s+/g, "").trim();
-                        s=s.replace('+','');    
-                        $('#result').append(
-                        '<div class=\"form-group row\">'+
-                        '<label for=\"exampleInputnumber\">'+key+'</label>'+
-                        '<input type=\"number\" class=\"form-control\" value=\"0\" id=\"'+s+'\" required></div>'
-                          )
-                        }
-                      }
-                    $('#result').append(
-
-                    '<div class=\"row\" ><div class=\"col-6\" id=\"res\"></div><div class=\"col-6\"><button style=\"width:100%\"type=\"submit\" class="btn btn-primary" onclick=\"calculate()\">Calculate</button></div></div></form>'
-                    )
-                    
-                   
-                   
-                })
-
-            };
-
-            reader.onerror = function (ex) {
-                console.log(ex);
-            };
-
-            reader.readAsBinaryString(file);
-
-
-})
-</script>
-  </body>
-
-
+    <script>
+        $(window).scroll(function() {
+            console.log();
+            width = $(window).scrollTop() * 5;
+            document.body.style.backgroundImage = 'url(\"data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'' + width.toString() + '\' height=\'' + width.toString() + '\' viewBox=\'0 0 200 200\'%3E%3Cdefs%3E%3ClinearGradient id=\'a\' gradientUnits=\'userSpaceOnUse\' x1=\'88\' y1=\'88\' x2=\'0\' y2=\'0\'%3E%3Cstop offset=\'0\' stop-color=\'%23064e77\'/%3E%3Cstop offset=\'1\' stop-color=\'%230a7dbe\'/%3E%3C/linearGradient%3E%3ClinearGradient id=\'b\' gradientUnits=\'userSpaceOnUse\' x1=\'75\' y1=\'76\' x2=\'168\' y2=\'160\'%3E%3Cstop offset=\'0\' stop-color=\'%238f8f8f\'/%3E%3Cstop offset=\'0.09\' stop-color=\'%23b3b3b3\'/%3E%3Cstop offset=\'0.18\' stop-color=\'%23c9c9c9\'/%3E%3Cstop offset=\'0.31\' stop-color=\'%23dbdbdb\'/%3E%3Cstop offset=\'0.44\' stop-color=\'%23e8e8e8\'/%3E%3Cstop offset=\'0.59\' stop-color=\'%23f2f2f2\'/%3E%3Cstop offset=\'0.75\' stop-color=\'%23fafafa\'/%3E%3Cstop offset=\'1\' stop-color=\'%23FFFFFF\'/%3E%3C/linearGradient%3E%3Cfilter id=\'c\' x=\'0\' y=\'0\' width=\'200%25\' height=\'200%25\'%3E%3CfeGaussianBlur in=\'SourceGraphic\' stdDeviation=\'12\' /%3E%3C/filter%3E%3C/defs%3E%3Cpolygon fill=\'url(%23a)\' points=\'0 174 0 0 174 0\'/%3E%3Cpath fill=\'%23000\' fill-opacity=\'.5\' filter=\'url(%23c)\' d=\'M121.8 174C59.2 153.1 0 174 0 174s63.5-73.8 87-94c24.4-20.9 87-80 87-80S107.9 104.4 121.8 174z\'/%3E%3Cpath fill=\'url(%23b)\' d=\'M142.7 142.7C59.2 142.7 0 174 0 174s42-66.3 74.9-99.3S174 0 174 0S142.7 62.6 142.7 142.7z\'/%3E%3C/svg%3E\")';
+        });
+    </script>
+</body>
 
 </html>
